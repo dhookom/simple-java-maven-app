@@ -27,7 +27,7 @@ jobs:
     - name: Build with Maven
       run: mvn -B package --file pom.xml
     - name: Upload Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v3.4.3
       with:
         name: app-artifact
         path: simple-java-maven-app/target/*.jar # Or *.war
