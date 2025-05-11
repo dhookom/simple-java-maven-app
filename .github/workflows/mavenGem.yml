@@ -26,7 +26,7 @@ jobs:
     - name: Build with Maven
       run: cd simple-java-maven-app && mvn -B package --file pom.xml
     - name: Deploy to Remote Server
-      uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+      uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
       with:
         host: ${{ secrets.HOST }}
         user: ${{ secrets.USERNAME }}
