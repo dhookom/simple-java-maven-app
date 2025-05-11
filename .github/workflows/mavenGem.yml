@@ -2,9 +2,9 @@ name: Build and Deploy Simple Java Maven App
 
 on:
   push:
-    branches: [ "Master" ] # Updated to "Master"
+    branches: [ "Master" ] # Assuming your main branch is "Master"
   pull_request:
-    branches: [ "Master" ] # Updated to "Master"
+    branches: [ "Master" ] # Assuming your main branch is "Master"
 
 jobs:
   build-and-deploy:
@@ -26,7 +26,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-maven-
     - name: Build with Maven
-      run: mvn -B package --file simple-java-maven-app/pom.xml
+      run: mvn -B package --file pom.xml
     - name: Deploy to Remote Server
       uses: cross-the-world/ssh-scp-ssh-pipelines@v1.1.4
       with:
@@ -34,4 +34,11 @@ jobs:
         user: ${{ secrets.USERNAME }}
         pass: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        scp: simple-java-maven-app/target/*.jar => /path/to/remote/destination/ # Adjust remote path
+        scp: simple-java-maven-app/target/*.jar => /tmp/
+        # Optional: Add commands to execute before or after SCP
+        # first_ssh: |
+        #   echo "Starting deployment..."
+        # last_ssh: |
+        #   echo "Deployment complete."
+        #   # Example: Restart a service
+        #   # ssh -p ${{ secrets.PORT }} ${{ secrets.USERNAME }}@${{ secrets.HOST }} "sudo systemctl restart my-app.service"
