@@ -2,7 +2,9 @@ name: Build and Deploy Simple Java Maven App
 
 on:
   push:
-    branches: [ "main" ] # Adjust to your main branch name if different
+    branches: [ "Master" ] # Updated to "Master"
+  pull_request:
+    branches: [ "Master" ] # Updated to "Master"
 
 jobs:
   build-and-deploy:
