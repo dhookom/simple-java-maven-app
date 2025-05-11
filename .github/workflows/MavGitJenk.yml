@@ -30,7 +30,7 @@ jobs:
       uses: actions/upload-artifact@v3.2.0
       with:
         name: app-artifact
-        path: simple-java-maven-app/target/*.jar # Or *.war
+        path: simple-java-maven-app/target/simple-java-maven-app-1.0-SNAPSHOT.jar
     - name: Trigger Jenkins Job
       env:
         JENKINS_BUILD_URL: ${{ secrets.JENKINS_BUILD_URL }}
