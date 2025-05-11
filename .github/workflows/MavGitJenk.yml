@@ -1,0 +1,41 @@
+name: Build and Trigger Jenkins Deployment
+
+on:
+  push:
+    branches: [ "master" ] # Updated to lowercase "master"
+  pull_request:
+    branches: [ "master" ] # Updated to lowercase "master"
+
+jobs:
+  build-and-trigger:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Set up JDK 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+    - name: Cache Maven Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-maven-${{ hashFiles('simple-java-maven-app/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-maven-
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: app-artifact
+        path: simple-java-maven-app/target/*.jar # Or *.war
+    - name: Trigger Jenkins Job
+      env:
+        JENKINS_BUILD_URL: ${{ secrets.JENKINS_BUILD_URL }}
+        JENKINS_API_TOKEN: ${{ secrets.JENKINS_API_TOKEN }}
+      run: |
+        curl -X POST $JENKINS_BUILD_URL \
+          -u "${{ secrets.JENKINS_USERNAME }}:${{ secrets.JENKINS_API_TOKEN }}"
+        echo "Jenkins job triggered successfully!"
