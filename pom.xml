@@ -48,6 +48,20 @@
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>com.mycompany.app.App</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+              </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>3.5.0</version>
                 <executions>
@@ -63,12 +77,12 @@
                                 </requireMavenVersion>
                                 <requireJavaVersion>
                                     <version>[17,)</version>
-                                </rules>
-                            </configuration>
-                        </execution>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
                     </execution>
-                </plugins>
-            </plugins>
-        </build>
-    </project>
-</build>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
